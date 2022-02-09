@@ -1,0 +1,15 @@
+<mat-toolbar color="primary" style="padding: 1%;" class="mat-elevation-z3">
+    <span style="margin-right: 1%;">Wordle</span>
+    <a mat-button [routerLink]="['']">Jugar</a>
+    <div class="spacer"></div>
+    <div *ngIf="!isUserAuthenticated(); else authenticated" style="margin-right: 1%;">
+    <a mat-raised-button style="margin-right: 10%;" (click)="openLogin()" color="accent">Login</a>
+    <a mat-raised-button (click)="openRegister()" color="accent">Registro</a>
+    </div>
+    <ng-template #authenticated>
+        <a mat-button (click)="openStats()"><mat-icon>equalizer</mat-icon></a>
+        <p style="margin-right: 1%;">{{username}}</p>
+        <a mat-raised-button style="margin-right: 1%;" (click)="logout()" color="accent">Cerrar sesión</a>
+    </ng-template>
+    <a mat-button (click)="openSettings()"><mat-icon>settings</mat-icon></a>
+</mat-toolbar>

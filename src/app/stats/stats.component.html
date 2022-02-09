@@ -1,0 +1,18 @@
+
+<h3>ESTADÍSTICAS</h3>
+<div>
+    <div>
+      <div class="chart">
+        <canvas baseChart
+                [data]="pieChartData"
+                [type]="pieChartType"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins">
+        </canvas>
+      </div>
+    </div>
+  </div>
+<br>
+<p>Total de partidas: {{games}}</p>
+<strong>Ranking: #{{ranking}}</strong>
+<p>Número de jugadores: {{totalRanking}}</p>

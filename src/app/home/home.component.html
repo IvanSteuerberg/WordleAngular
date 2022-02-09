@@ -1,0 +1,51 @@
+<div class="container">
+	<div class="main">
+		<div class="try-container" *ngFor="let try of tries" #tryContainer>
+			<div class="letter-container" *ngFor="let letter of try.letters"
+			    [class.match]="letter.state === LetterState.FULL_MATCH"
+			    [class.partial]="letter.state === LetterState.PARTIAL_MATCH"
+			    [class.wrong]="letter.state === LetterState.WRONG"
+			    [class.has-text]="letter.text !== ''">
+				{{letter.text}}
+			</div>
+		</div>
+	</div>
+
+	<div class="keyboard-container">
+		<div [class]="['row' + i, 'row'].join(' ')"
+		    *ngFor="let row of keyboardRows; let i = index">
+			<div *ngFor="let key of row" [class]="getKeyClass(key)"
+				[class.backspace]="key === 'Backspace'"
+			    [class.enter]="key === 'Enter'"
+					(click)="handleClickKey(key)">
+				<div *ngIf="key !== 'Backspace' && key !== 'Enter' ; else backspace">
+				  {{key}}
+				</div>
+				<ng-template #backspace>
+					<ng-container *ngIf="key === 'Backspace'; else enter">
+						<img src="../assets/backspace.svg"/>
+					</ng-container>
+				</ng-template>
+				<ng-template #enter>
+					Enviar
+				</ng-template>
+			</div>
+		</div>
+	</div>
+
+	<div class="info-msg"
+	    [class.show]="infoMsg !== ''"
+	    [class.fade-out]="fadeOutInfoMessage">
+		{{infoMsg}}
+	</div>
+
+	<div class="share-dialog-container" [class.show]="showShareDialogContainer">
+		<div class="share-dialog" [class.show]="showShareDialog">
+			<button style="margin-top:95.5px; margin-left:82.5px;" (click)="handleClickShare()">Compartir</button>
+			<br>
+			<br>
+			<button style="margin-left:67.5px;" (click)="handleReplay()">Volver a jugar</button>
+		</div>
+	</div>
+</div>
+

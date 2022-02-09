@@ -1,0 +1,28 @@
+
+<h3>OPCIONES</h3>
+<br>
+<form [formGroup]="myForm">
+    <mat-slide-toggle formControlName="modoOscuro">Modo oscuro</mat-slide-toggle>
+    <h4>Dificultad</h4>
+<mat-form-field appearance="fill">
+    <mat-label>Escoge una Dificultad!</mat-label>
+    <mat-select formControlName="dificultad">
+      <mat-option value="facil">Facil</mat-option>
+      <mat-option value="dificil">Dificil</mat-option>
+      <mat-option value="muydificil">Muy difícil</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <h4>Idioma</h4>
+  <mat-form-field appearance="fill">
+    <mat-label>Escoge un Idioma!</mat-label>
+    <mat-select formControlName="language">
+      <mat-option value="ES">Español</mat-option>
+      <mat-option value="GAL">Galego</mat-option>
+      <mat-option value="CAT">Catalán</mat-option>
+      <mat-option value="ENG">Inglés</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button color="primary" type="submit" (click)="saveSettings()">Guardar cambios</button>
+</form>

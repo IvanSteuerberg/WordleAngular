@@ -1,0 +1,23 @@
+<h3>Registro</h3>
+<br>
+<form [formGroup]="registerForm">
+          <div *ngIf="invalidLogin" class="alert alert-danger">No se ha podido registrar</div>
+          <mat-form-field appearance="fill">
+            <mat-label>Usuario</mat-label>
+            <input matInput formControlName="usuario">
+          </mat-form-field>
+          <small *ngIf="registerForm.get('usuario')?.errors?.['pattern']" style="color: red;"> Usa caracteres validos!</small> 
+          <br>
+          <mat-form-field appearance="fill">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" formControlName="password">
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="fill">
+            <mat-label>Repetir contraseña</mat-label>
+            <input matInput type="password" formControlName="password2">
+          </mat-form-field>
+          <small *ngIf="registerForm.get('password2')?.hasError('matching')" style="color: red;"> Las contraseñas deben coincidir</small> 
+          <br>
+  <button [disabled]="registerForm.invalid" mat-raised-button color="primary" type="submit" (click)="registrarse()">Registrarse</button>
+</form>

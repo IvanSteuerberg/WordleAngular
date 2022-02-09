@@ -1,0 +1,16 @@
+<h3>Login</h3>
+<br>
+<form [formGroup]="loginForm">
+          <div *ngIf="invalidLogin" class="alert alert-danger">Usuario o contraseña incorrectos</div>
+          <mat-form-field appearance="fill">
+            <mat-label>Usuario</mat-label>
+            <input matInput formControlName="username">
+          </mat-form-field>
+          <br>
+          <mat-form-field appearance="fill">
+            <mat-label>Contraseña</mat-label>
+            <input matInput type="password" formControlName="password">
+          </mat-form-field>
+          <br>
+  <button [disabled]="loginForm.invalid" mat-raised-button color="primary" type="submit" (click)="iniciarSesion()">Iniciar sesión</button>
+</form>
