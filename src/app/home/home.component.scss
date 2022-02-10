@@ -42,6 +42,15 @@
 				text-transform: uppercase;
 				transition: transform 180ms;
 
+				&.dark-mode{
+					&.has-text{
+					border-color: wheat;
+					color: wheat;
+					animation-name: letter-pop;
+					animation-duration: 120ms;
+				}
+				}
+
 				&.has-text {
 					border-color: #888;
 					animation-name: letter-pop;
@@ -62,8 +71,8 @@
 				}
 
 				&.wrong {
-					background-color: #86888a;
-					border-color: #86888a;
+					background-color: #FF5252;
+					border-color: #FF5252;
 					color: white;
 				}
 
@@ -89,6 +98,52 @@
 
 
 		}
+		.key-dark-mode {
+			height: 58px;
+			min-width: 42px;
+			margin-right: 6px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			border-radius: 4px;
+			background-color: grey;
+			color: white;
+			font-size: 13px;
+			font-weight: bold;
+			user-select: none;
+			&.enter {
+				
+				padding: 0 11px;
+				text-transform: uppercase;
+			}
+
+			&.backspace {
+				
+				padding: 0 11px;
+				text-transform: uppercase;
+			}
+
+			&.match {
+				background-color: #6aaa64;
+				color: white;
+			}
+
+			&.partial {
+				background-color: #c9b458;
+				color: white;
+			}
+
+			&.wrong {
+				background-color: #FF5252;
+				color: white;
+			}
+
+			&:hover {
+				background-color: #bbb;
+			}
+			
+	}
 
 		.key {
 			height: 58px;
@@ -127,7 +182,7 @@
 			}
 
 			&.wrong {
-				background-color: #86888a;
+				background-color: #FF5252;
 				color: white;
 			}
 
@@ -170,6 +225,9 @@
 
 		&.show {
 			visibility: visible;
+			&.dark-mode{
+				background-color: rgba(255, 255, 255, 0);
+			}
 		}
 
 		.share-dialog {
@@ -185,6 +243,10 @@
 			opacity: 0;
 			transform: translateY(30px);
 			transition: all 300ms ease-out;
+
+			&.dark-mode{
+				background-color: grey;
+			}
 
 			button {
 				background-color: #6aaa64;

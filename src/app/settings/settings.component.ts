@@ -1,6 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ThemeService } from '../theme.service';
 
 @Component({
   selector: 'app-settings',
@@ -10,11 +11,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class SettingsComponent implements OnInit {
   myForm!: FormGroup;
   fb : FormBuilder = new FormBuilder;
-  constructor(private settings: MatDialog) { }
+  constructor(private settings: MatDialog, private themeService: ThemeService) { }
   saveSettings(){
     console.log(this.myForm.value)
     localStorage.setItem('dificultad', this.myForm.value['dificultad']);
-    localStorage.setItem('modoOscuro', this.myForm.value['modoOscuro']);
+    if (this.myForm.value['modoOscuro']){
+      localStorage.setItem('modoOscuro', 'dark-mode');
+      this.themeService.update('dark-mode');
+    }
+    else{
+      localStorage.setItem('modoOscuro', 'light-mode');
+      this.themeService.update('light-mode');
+    }
     localStorage.setItem('language', this.myForm.value['language']);
     this.settings.closeAll()
 
@@ -22,9 +30,9 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     var dificultad = localStorage.getItem('dificultad');
-    var modoOscuro : Boolean;
+    var modoOscuro : boolean;
     var language = localStorage.getItem('language');
-    if (localStorage.getItem('modoOscuro') == "false"){
+    if (localStorage.getItem('modoOscuro') == "light-mode"){
       modoOscuro = false;
     }
     else{

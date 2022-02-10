@@ -27,11 +27,17 @@ $wordle-theme: mat.define-light-theme((
     warn: $wordle-warn,
   )
 ));
+$wordle-theme-dark: mat.define-dark-theme((
+  color: (
+    primary: $wordle-primary,
+    accent: $wordle-accent,
+    warn: $wordle-warn,
+  )
+));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($wordle-theme);
 
 body, html {
 	margin: 0;
@@ -43,3 +49,12 @@ body, html {
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.dark-mode {
+  @include mat.all-component-themes($wordle-theme-dark);
+  background-color: #333;
+  color: whitesmoke;
+}
+
+.light-mode {
+  @include mat.all-component-themes($wordle-theme);
+}

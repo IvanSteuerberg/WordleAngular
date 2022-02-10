@@ -76,7 +76,7 @@ export class StatsComponent implements OnInit {
       this.winRate = responseJson.winRate;
       this.loses = this.games - this.wins;
       this.ranking = responseJson.ranking;
-      this.totalRanking = responseJson.totalRanking;
+      this.totalRanking = responseJson.total;
   }
 
 

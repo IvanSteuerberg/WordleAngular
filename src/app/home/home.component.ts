@@ -179,6 +179,12 @@ export class HomeComponent implements OnInit{
       this.handleClickKey(event.key);
     }
   }
+  isDarkMode(){
+    if (localStorage.getItem('modoOscuro') == 'light-mode'){
+      return false;
+    }
+    return true;
+  }
 
   // Returns the classes for the given keyboard key based on its state.
   getKeyClass(key: string): string {
@@ -191,12 +197,19 @@ export class HomeComponent implements OnInit{
       case LetterState.WRONG:
         return 'wrong key';
       default:
-        return 'key';
+        let modoOscuro = localStorage.getItem('modoOscuro');
+        if (modoOscuro != null && modoOscuro == 'light-mode'){
+          return 'key'
+        }
+        else{
+          return 'key-dark-mode'
+        }
+        
     }
   }
 
   handleClickKey(key: string) {
-    // Don't process key down when user has won the game.
+    // Don't process key down when user has-text won the game.
     if (this.won) {
       return;
     }

@@ -5,7 +5,8 @@
 			    [class.match]="letter.state === LetterState.FULL_MATCH"
 			    [class.partial]="letter.state === LetterState.PARTIAL_MATCH"
 			    [class.wrong]="letter.state === LetterState.WRONG"
-			    [class.has-text]="letter.text !== ''">
+			    [class.has-text]="letter.text !== ''"
+				[class.dark-mode]=isDarkMode()>
 				{{letter.text}}
 			</div>
 		</div>
@@ -39,8 +40,8 @@
 		{{infoMsg}}
 	</div>
 
-	<div class="share-dialog-container" [class.show]="showShareDialogContainer">
-		<div class="share-dialog" [class.show]="showShareDialog">
+	<div class="share-dialog-container" [class.show]="showShareDialogContainer" [class.dark-mode]=isDarkMode()>
+		<div class="share-dialog" [class.show]="showShareDialog" [class.dark-mode]=isDarkMode()>
 			<button style="margin-top:95.5px; margin-left:82.5px;" (click)="handleClickShare()">Compartir</button>
 			<br>
 			<br>
