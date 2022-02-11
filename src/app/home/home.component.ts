@@ -19,7 +19,7 @@ switch (language) {
     break;
 
   case "CAT":
-    LANGUAGE = "GAL";
+    LANGUAGE = "CAT";
     break;
 
   case "ENG":
@@ -61,7 +61,12 @@ const LETTERS = (() => {
   for (let charCode = 97; charCode < 97 + 26; charCode++) {
     ret[String.fromCharCode(charCode)] = true;
   }
-  ret[String.fromCharCode(241)] = true;
+  if (LANGUAGE == "CAT"){
+    ret[String.fromCharCode(231)] = true;
+  }
+  else{
+    ret[String.fromCharCode(241)] = true;
+  }
   return ret;
 })();
 
@@ -170,6 +175,9 @@ export class HomeComponent implements OnInit{
   private targetWordLetterCounts: {[letter: string]: number} = {};
 
   constructor(private dialogos : MatDialog, private jwtHelper: JwtHelperService) {
+    if (LANGUAGE=="CAT"){
+      console.log(this.keyboardRows[1][9]="Ç")
+    }
     
   }
 
