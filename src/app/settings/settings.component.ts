@@ -13,7 +13,6 @@ export class SettingsComponent implements OnInit {
   fb : FormBuilder = new FormBuilder;
   constructor(private settings: MatDialog, private themeService: ThemeService) { }
   saveSettings(){
-    console.log(this.myForm.value)
     localStorage.setItem('dificultad', this.myForm.value['dificultad']);
     if (this.myForm.value['modoOscuro']){
       localStorage.setItem('modoOscuro', 'dark-mode');

@@ -116,9 +116,8 @@ export class HomeComponent implements OnInit{
       }
       this.tries.push({letters});
     }
-    this.targetWord = this.word.name;
+    this.targetWord = this.word.name.toLowerCase();
     // Print it out so we can cheat!:)
-    console.log('target word: ', this.targetWord);
 
     // Generate letter counts for target word.
     for (const letter of this.targetWord) {
@@ -128,7 +127,6 @@ export class HomeComponent implements OnInit{
       }
       this.targetWordLetterCounts[letter]++;
     }
-    console.log(this.targetWordLetterCounts);
   }
 
   // Stores all tries.
@@ -176,7 +174,7 @@ export class HomeComponent implements OnInit{
 
   constructor(private dialogos : MatDialog, private jwtHelper: JwtHelperService) {
     if (LANGUAGE=="CAT"){
-      console.log(this.keyboardRows[1][9]="Ç")
+      this.keyboardRows[1][9]="Ç"
     }
     
   }
@@ -373,7 +371,6 @@ export class HomeComponent implements OnInit{
       }
       states.push(state);
     }
-    console.log(states);
 
     // Animate.
     // Again, there must be a more angular way to do this, but...
