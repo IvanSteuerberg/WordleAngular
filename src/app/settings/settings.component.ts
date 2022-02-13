@@ -2,6 +2,7 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ThemeService } from '../theme.service';
+import { SettingsGuard } from './settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -11,7 +12,7 @@ import { ThemeService } from '../theme.service';
 export class SettingsComponent implements OnInit {
   myForm!: FormGroup;
   fb : FormBuilder = new FormBuilder;
-  constructor(private settings: MatDialog, private themeService: ThemeService) { }
+  constructor(private settings: MatDialog, private themeService: ThemeService, private event: SettingsGuard) { }
   saveSettings(){
     localStorage.setItem('dificultad', this.myForm.value['dificultad']);
     if (this.myForm.value['modoOscuro']){
@@ -23,6 +24,7 @@ export class SettingsComponent implements OnInit {
       this.themeService.update('light-mode');
     }
     localStorage.setItem('language', this.myForm.value['language']);
+    this.event.clicked()
     this.settings.closeAll()
 
   }

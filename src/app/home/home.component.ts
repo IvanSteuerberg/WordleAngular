@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import {Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { SettingsGuard } from '../settings/settings.service';
 
 // Lenght of the word.
 var WORD_LENGTH: number;
@@ -172,10 +173,13 @@ export class HomeComponent implements OnInit{
   // { 'h':1, 'a': 1, 'p': 2, 'y': 1 }
   private targetWordLetterCounts: {[letter: string]: number} = {};
 
-  constructor(private dialogos : MatDialog, private jwtHelper: JwtHelperService) {
+  constructor(private dialogos : MatDialog, private jwtHelper: JwtHelperService, private event: SettingsGuard) {
     if (LANGUAGE=="CAT"){
       this.keyboardRows[1][9]="Ç"
     }
+    this.event.saveSettings.subscribe(() => {
+      this.showInfoMessage("Los cambios surgirán efecto al refrescar la página!");
+    });
     
   }
 
