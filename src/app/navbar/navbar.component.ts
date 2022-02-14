@@ -38,14 +38,20 @@ export class NavbarComponent implements OnInit {
 
   isUserAuthenticated(){
     var token = localStorage.getItem("jwt");
+    try{
     if (token && !this.jwtHelper.isTokenExpired(token)){
       let decodedJWT = JSON.parse(window.atob(token.split('.')[1]));
       this.username = decodedJWT["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
       return true;
     }
     else{
+      localStorage.removeItem("jwt");
       return false;
     }
+  }catch{
+    localStorage.removeItem("jwt");
+    return false;
+  }
   }
 
 }
