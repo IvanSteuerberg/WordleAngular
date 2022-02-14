@@ -29,8 +29,8 @@
 			}
 
 			.letter-container {
-				width: 3.5vw;
-				height: 3.5vw;
+				width: 3.5rem;
+				height: 3.5rem;
 				border: 2px solid #ddd;
 				box-sizing: border-box;
 				margin: 0 2px;
@@ -90,6 +90,7 @@
 
 	.keyboard-container {
 		margin-bottom: 12px;
+		min-width: 30 rem;
 
 		.row {
 			display: flex;
@@ -99,8 +100,8 @@
 
 		}
 		.key-dark-mode {
-			height: 4vw;
-			min-width: 3vw;
+			height: 3rem;
+			min-width: 2.5rem;
 			margin-right: 6px;
 			display: flex;
 			align-items: center;
@@ -146,8 +147,8 @@
 	}
 
 		.key {
-			height: 4vw;
-			min-width: 3vw;
+			height: 3rem;
+			min-width: 2.5rem;
 			margin-right: 6px;
 			display: flex;
 			align-items: center;
