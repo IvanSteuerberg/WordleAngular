@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
   invalidLogin!: boolean;
   constructor(private settings: MatDialog, private http : HttpClient) { }
   registrarse(){
-    this.http.post("https://localhost:5001/api/users/register", { 
+    this.http.post("https://api.juegawordle.com/api/users/register", { 
       username: this.registerForm.value.usuario, 
       password: this.registerForm.value.password
     })

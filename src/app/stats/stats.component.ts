@@ -69,7 +69,7 @@ export class StatsComponent implements OnInit {
     if (jwt == null){
       jwt = ''
     }
-    const response = await fetch("https://localhost:5001/api/stats/"+this.data.username, {method:'GET', headers: new Headers({Authorization: 'Bearer '+jwt})});
+    const response = await fetch("https://api.juegawordle.com/api/stats/"+this.data.username, {method:'GET', headers: new Headers({Authorization: 'Bearer '+jwt})});
     var responseJson = await response.json();
     this.games = responseJson.games;
       this.wins = responseJson.wins;

@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   fb : FormBuilder = new FormBuilder;
   constructor(private settings: MatDialog, private http : HttpClient) { }
   iniciarSesion(){
-    this.http.post("https://localhost:5001/api/users/login", { 
+    this.http.post("https://api.juegawordle.com/api/users/login", { 
       username: this.loginForm.value.username, 
       password: this.loginForm.value.password
     })

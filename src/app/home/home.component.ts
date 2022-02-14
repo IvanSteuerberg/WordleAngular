@@ -286,12 +286,12 @@ export class HomeComponent implements OnInit{
   }
 
   private async getWord(){
-    const response = await fetch("https://localhost:5001/api/getrandomword/"+WORD_LENGTH+"/"+LANGUAGE, {method:'GET'});
+    const response = await fetch("https://api.juegawordle.com/api/getrandomword/"+WORD_LENGTH+"/"+LANGUAGE, {method:'GET'});
     this.word = await response.json();
   }
 
   private async wordExists(word: string){
-    const response = await fetch("https://localhost:5001/api/isword/"+word+"/"+LANGUAGE, {method:'GET'});
+    const response = await fetch("https://api.juegawordle.com/api/isword/"+word+"/"+LANGUAGE, {method:'GET'});
     return await response.json();
   }
 
@@ -306,7 +306,7 @@ export class HomeComponent implements OnInit{
         'Authorization':'Bearer ' +this.token,
         'Content-Type':'application/json'
        }
-      await fetch("https://localhost:5001/api/stats/game", {method:'POST', headers: headers, body: JSON.stringify(content)});
+      await fetch("https://api.juegawordle.com/api/stats/game", {method:'POST', headers: headers, body: JSON.stringify(content)});
     }
   }
   
