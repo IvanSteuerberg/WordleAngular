@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -354,6 +353,10 @@ export class HomeComponent implements OnInit{
     // values.
     const targetWordLetterCounts = {...this.targetWordLetterCounts};
     const states: LetterState[] = [];
+    let currentTry = ''
+    for (let i = 0; i < WORD_LENGTH; i++){
+      currentTry = currentTry + curTry.letters[i].text.toLowerCase();
+    }
     for (let i = 0; i < WORD_LENGTH; i++) {
       const expected = this.targetWord[i];
       const curLetter = curTry.letters[i];
@@ -370,8 +373,40 @@ export class HomeComponent implements OnInit{
         state = LetterState.FULL_MATCH;
       } else if (
           this.targetWord.includes(got) && targetWordLetterCounts[got] > 0) {
-        targetWordLetterCounts[got]--
-        state = LetterState.PARTIAL_MATCH;
+            if (currentTry.includes(got, i+1)){
+              let isCorrect = false;
+              for (let j = i; j < WORD_LENGTH; j++){
+                const expected2 = this.targetWord[j];
+                const got2 = curTry.letters[j].text.toLowerCase();
+                if (expected2 == got2 && got == got2){
+                  isCorrect = true;
+                }
+
+              }
+              if(isCorrect){
+                let count = 0;
+                for (let j = i+1; j < currentTry.length; j++){
+                  if (currentTry[j] == got){
+                    count++;
+                  }
+                }
+                if(targetWordLetterCounts[got] > count){
+                  targetWordLetterCounts[got]--
+                  state = LetterState.PARTIAL_MATCH;
+                }
+                else{
+                  state = LetterState.WRONG;
+                }
+              }
+              else{
+                targetWordLetterCounts[got]--
+                state = LetterState.PARTIAL_MATCH;
+              }
+            }
+            else{
+              targetWordLetterCounts[got]--
+              state = LetterState.PARTIAL_MATCH;
+            }
       }
       states.push(state);
     }
