@@ -1,5 +1,5 @@
-import {Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import { Component, ElementRef, HostListener, QueryList, ViewChild, ViewChildren, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SettingsGuard } from '../settings/settings.service';
 
@@ -57,14 +57,14 @@ switch (dificultad) {
 // Letter map.
 const LETTERS = (() => {
   // letter -> true. Easier to check.
-  const ret: {[key: string]: boolean} = {};
+  const ret: { [key: string]: boolean } = {};
   for (let charCode = 97; charCode < 97 + 26; charCode++) {
     ret[String.fromCharCode(charCode)] = true;
   }
-  if (LANGUAGE == "CAT"){
+  if (LANGUAGE == "CAT") {
     ret[String.fromCharCode(231)] = true;
   }
-  else{
+  else {
     ret[String.fromCharCode(241)] = true;
   }
   return ret;
@@ -97,24 +97,24 @@ enum LetterState {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   @ViewChildren('tryContainer') tryContainers!: QueryList<ElementRef>;
-  
+
   // Store the target word.
   private targetWord = '';
   private word: any;
   private username!: string;
-  private token : any;
+  private token: any;
 
-  async ngOnInit(){
+  async ngOnInit() {
     await this.getWord();
     // Populate initial state of "tries".
     for (let i = 0; i < NUM_TRIES; i++) {
       const letters: Letter[] = [];
       for (let j = 0; j < WORD_LENGTH; j++) {
-        letters.push({text: '', state: LetterState.PENDING});
+        letters.push({ text: '', state: LetterState.PENDING });
       }
-      this.tries.push({letters});
+      this.tries.push({ letters });
     }
     this.targetWord = this.word.name.toLowerCase();
     // Print it out so we can cheat!:)
@@ -144,7 +144,7 @@ export class HomeComponent implements OnInit{
   ];
 
   // Stores the state for the keyboard key indexed by keys.
-  readonly curLetterStates: {[key: string]: LetterState} = {};
+  readonly curLetterStates: { [key: string]: LetterState } = {};
 
   // Message shown in the message panel.
   infoMsg = '';
@@ -170,26 +170,26 @@ export class HomeComponent implements OnInit{
   // For example, if the target word is "happy", then this map will look like:
   //
   // { 'h':1, 'a': 1, 'p': 2, 'y': 1 }
-  private targetWordLetterCounts: {[letter: string]: number} = {};
+  private targetWordLetterCounts: { [letter: string]: number } = {};
 
-  constructor(private dialogos : MatDialog, private jwtHelper: JwtHelperService, private event: SettingsGuard) {
-    if (LANGUAGE=="CAT"){
-      this.keyboardRows[1][9]="Ç"
+  constructor(private dialogos: MatDialog, private jwtHelper: JwtHelperService, private event: SettingsGuard) {
+    if (LANGUAGE == "CAT") {
+      this.keyboardRows[1][9] = "Ç"
     }
     this.event.saveSettings.subscribe(() => {
       this.showInfoMessage("Los cambios surgirán efecto al refrescar la página!");
     });
-    
+
   }
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (this.dialogos.openDialogs.length == 0){
+    if (this.dialogos.openDialogs.length == 0) {
       this.handleClickKey(event.key);
     }
   }
-  isDarkMode(){
-    if (localStorage.getItem('modoOscuro') == 'light-mode'){
+  isDarkMode() {
+    if (localStorage.getItem('modoOscuro') == 'light-mode') {
       return false;
     }
     return true;
@@ -207,13 +207,13 @@ export class HomeComponent implements OnInit{
         return 'wrong key';
       default:
         let modoOscuro = localStorage.getItem('modoOscuro');
-        if (modoOscuro != null && modoOscuro == 'light-mode'){
+        if (modoOscuro != null && modoOscuro == 'light-mode') {
           return 'key'
         }
-        else{
+        else {
           return 'key-dark-mode'
         }
-        
+
     }
   }
 
@@ -269,10 +269,10 @@ export class HomeComponent implements OnInit{
       }
       clipboardContent += '\n';
     }
-    clipboardContent += this.targetWord + ' ' + this.numSubmittedTries+'/' + NUM_TRIES + '\n' + 'juegawordle.com';
+    clipboardContent += this.targetWord + ' ' + this.numSubmittedTries + '/' + NUM_TRIES + '\n' + 'juegawordle.com';
     console.log(clipboardContent);
     navigator.clipboard.writeText(clipboardContent);
-    this.showInfoMessage('Resultado copiado en el portapeles'); 
+    this.showInfoMessage('Resultado copiado en el portapeles');
   }
   handleReplay() {
     window.location.reload();
@@ -284,39 +284,49 @@ export class HomeComponent implements OnInit{
     this.tries[tryIndex].letters[letterIndex].text = letter;
   }
 
-  private async getWord(){
-    const response = await fetch("https://api.juegawordle.com/api/getrandomword/"+WORD_LENGTH+"/"+LANGUAGE, {method:'GET'});
+  private async getWord() {
+    const response = await fetch("https://api.juegawordle.com/api/getrandomword/" + WORD_LENGTH + "/" + LANGUAGE, { method: 'GET' });
     this.word = await response.json();
   }
 
-  private async wordExists(word: string){
-    const response = await fetch("https://api.juegawordle.com/api/isword/"+word+"/"+LANGUAGE, {method:'GET'});
+  private async wordExists(word: string) {
+    const response = await fetch("https://api.juegawordle.com/api/isword/" + word + "/" + LANGUAGE, { method: 'GET' });
     return await response.json();
   }
 
-  private async insertGame(isWin : boolean){
-    if (await this.isUserAuthenticated()){
+  private async insertGame(isWin: boolean) {
+    if (await this.isUserAuthenticated()) {
       var content = {
         username: this.username,
         isWin: isWin,
         language: LANGUAGE
       }
       var headers = {
-        'Authorization':'Bearer ' +this.token,
-        'Content-Type':'application/json'
-       }
-      await fetch("https://api.juegawordle.com/api/stats/game", {method:'POST', headers: headers, body: JSON.stringify(content)});
+        'Authorization': 'Bearer ' + this.token,
+        'Content-Type': 'application/json'
+      }
+      try {
+        await fetch("https://api.juegawordle.com/api/stats/game", { method: 'POST', headers: headers, body: JSON.stringify(content) });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
-  
-  async isUserAuthenticated(){
+
+  async isUserAuthenticated() {
     this.token = localStorage.getItem("jwt");
-    if (this.token && !this.jwtHelper.isTokenExpired(this.token)){
-      let decodedJWT = JSON.parse(window.atob(this.token.split('.')[1]));
-      this.username = decodedJWT["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
-      return true;
-    }
-    else{
+    try {
+      if (this.token && !this.jwtHelper.isTokenExpired(this.token)) {
+        let decodedJWT = JSON.parse(window.atob(this.token.split('.')[1]));
+        this.username = decodedJWT["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+        return true;
+      }
+      else {
+        localStorage.removeItem("jwt");
+        return false;
+      }
+    } catch {
+      localStorage.removeItem("jwt");
       return false;
     }
   }
@@ -331,14 +341,14 @@ export class HomeComponent implements OnInit{
 
     // Check if the current try is a word in the list.
     const wordFromCurTry =
-        curTry.letters.map(letter => letter.text).join('').toUpperCase();
+      curTry.letters.map(letter => letter.text).join('').toUpperCase();
     let exists: Boolean = await this.wordExists(wordFromCurTry);
     if (!exists) {
       this.showInfoMessage('La palabra no está en el diccionario');
       // Shake the current row.
       const tryContainer =
-          this.tryContainers.get(this.numSubmittedTries)?.nativeElement as
-          HTMLElement;
+        this.tryContainers.get(this.numSubmittedTries)?.nativeElement as
+        HTMLElement;
       tryContainer.classList.add('shake');
       setTimeout(() => {
         tryContainer.classList.remove('shake');
@@ -351,10 +361,10 @@ export class HomeComponent implements OnInit{
 
     // Clone the counts map. Need to use it in every check with the initial
     // values.
-    const targetWordLetterCounts = {...this.targetWordLetterCounts};
+    const targetWordLetterCounts = { ...this.targetWordLetterCounts };
     const states: LetterState[] = [];
     let currentTry = ''
-    for (let i = 0; i < WORD_LENGTH; i++){
+    for (let i = 0; i < WORD_LENGTH; i++) {
       currentTry = currentTry + curTry.letters[i].text.toLowerCase();
     }
     for (let i = 0; i < WORD_LENGTH; i++) {
@@ -372,41 +382,41 @@ export class HomeComponent implements OnInit{
         targetWordLetterCounts[expected]--;
         state = LetterState.FULL_MATCH;
       } else if (
-          this.targetWord.includes(got) && targetWordLetterCounts[got] > 0) {
-            if (currentTry.includes(got, i+1)){
-              let isCorrect = false;
-              for (let j = i; j < WORD_LENGTH; j++){
-                const expected2 = this.targetWord[j];
-                const got2 = curTry.letters[j].text.toLowerCase();
-                if (expected2 == got2 && got == got2){
-                  isCorrect = true;
-                }
+        this.targetWord.includes(got) && targetWordLetterCounts[got] > 0) {
+        if (currentTry.includes(got, i + 1)) {
+          let isCorrect = false;
+          for (let j = i; j < WORD_LENGTH; j++) {
+            const expected2 = this.targetWord[j];
+            const got2 = curTry.letters[j].text.toLowerCase();
+            if (expected2 == got2 && got == got2) {
+              isCorrect = true;
+            }
 
-              }
-              if(isCorrect){
-                let count = 0;
-                for (let j = i+1; j < currentTry.length; j++){
-                  if (currentTry[j] == got){
-                    count++;
-                  }
-                }
-                if(targetWordLetterCounts[got] > count){
-                  targetWordLetterCounts[got]--
-                  state = LetterState.PARTIAL_MATCH;
-                }
-                else{
-                  state = LetterState.WRONG;
-                }
-              }
-              else{
-                targetWordLetterCounts[got]--
-                state = LetterState.PARTIAL_MATCH;
+          }
+          if (isCorrect) {
+            let count = 0;
+            for (let j = i + 1; j < currentTry.length; j++) {
+              if (currentTry[j] == got) {
+                count++;
               }
             }
-            else{
+            if (targetWordLetterCounts[got] > count) {
               targetWordLetterCounts[got]--
               state = LetterState.PARTIAL_MATCH;
             }
+            else {
+              state = LetterState.WRONG;
+            }
+          }
+          else {
+            targetWordLetterCounts[got]--
+            state = LetterState.PARTIAL_MATCH;
+          }
+        }
+        else {
+          targetWordLetterCounts[got]--
+          state = LetterState.PARTIAL_MATCH;
+        }
       }
       states.push(state);
     }
@@ -416,8 +426,8 @@ export class HomeComponent implements OnInit{
 
     // Get the current try.
     const tryContainer =
-        this.tryContainers.get(this.numSubmittedTries)?.nativeElement as
-        HTMLElement;
+      this.tryContainers.get(this.numSubmittedTries)?.nativeElement as
+      HTMLElement;
     // Get the letter elements.
     const letterEles = tryContainer.querySelectorAll('.letter-container');
     for (let i = 0; i < letterEles.length; i++) {
