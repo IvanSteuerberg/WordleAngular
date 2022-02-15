@@ -105,6 +105,7 @@ export class HomeComponent implements OnInit {
   private word: any;
   private username!: string;
   private token: any;
+  private animation = true;
 
   async ngOnInit() {
     await this.getWord();
@@ -184,7 +185,7 @@ export class HomeComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (this.dialogos.openDialogs.length == 0) {
+    if (this.dialogos.openDialogs.length == 0 && this.animation) {
       this.handleClickKey(event.key);
     }
   }
@@ -235,15 +236,19 @@ export class HomeComponent implements OnInit {
     // Handle delete.
     else if (key === 'Backspace') {
       // Don't delete previous try.
+      if (this.dialogos.openDialogs.length == 0 && this.animation) {
       if (this.curLetterIndex > this.numSubmittedTries * WORD_LENGTH) {
         this.curLetterIndex--;
         this.setLetter('');
       }
     }
+    }
     // Submit the current try and check.
     else if (key === 'Enter') {
+      if (this.dialogos.openDialogs.length == 0 && this.animation) {
       this.checkCurrentTry();
     }
+  }
   }
 
   handleClickShare() {
@@ -361,6 +366,7 @@ export class HomeComponent implements OnInit {
 
     // Clone the counts map. Need to use it in every check with the initial
     // values.
+    this.animation = false;
     const targetWordLetterCounts = { ...this.targetWordLetterCounts };
     const states: LetterState[] = [];
     let currentTry = ''
@@ -464,7 +470,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.numSubmittedTries++;
-
+    this.animation = true;
     // Check if all letters in the current try are correct.
     if (states.every(state => state === LetterState.FULL_MATCH)) {
       this.showInfoMessage('VICTORIA!');
