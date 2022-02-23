@@ -34,16 +34,19 @@ export class RegisterComponent implements OnInit {
       usuario: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
+        Validators.maxLength(25),
         Validators.pattern("[A-Za-z0-9_]+")
       ]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
+        Validators.maxLength(25),
         matchValidator('password2', true)
       ]),
       password2: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
+        Validators.maxLength(25),
         matchValidator('password')
       ])
     });
